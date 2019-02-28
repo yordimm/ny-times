@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Services } from '../../services';
 import './styles.css';
 
-const NewInfo = ({ headline, snippet, source, publicationDate, keywords, link, handleChange, searchNews }) => {
+const NewInfo = ({ headline, snippet, source, publicationDate, keywords, link, searchByKeyword }) => {
     return (
         <div className="card">
             <div className="row card-body">
@@ -15,10 +16,10 @@ const NewInfo = ({ headline, snippet, source, publicationDate, keywords, link, h
                     <p className="d-sm-block d-none">{snippet}</p>
                     <p><b>{'Source:'}</b> {source}</p>
                     <p><b>{'Published: '}</b>{`${Services.formatDate(publicationDate)} GMT`}</p>
-                    <div className="d-md-flex d-none">
+                    {keywords.length > 0 && <div className="d-md-flex d-none">
                         <i className="fas fa-tags mt-1"></i>
-                        {keywords.length > 0 && keywords.map((keyword, index) => { return index <= 3 && <p className="mx-2" onClick={(handleChange)} name={'keyword'} value={keyword.name}>{keyword.name}</p> })}
-                    </div>
+                        {keywords.map((keyword, index) => { return index <= 3 && <p className="mx-2" name={'keyword'} onClick={() => searchByKeyword(keyword.value)} value={keyword.value}>{keyword.value}</p> })}
+                    </div>}
                 </div>
             </div>
         </div>
@@ -33,8 +34,7 @@ NewInfo.propTypes = {
     publicationDate: PropTypes.string.isRequired,
     keywords: PropTypes.arrayOf(PropTypes.string).isRequired,
     link: PropTypes.string,
-    handleChange: PropTypes.func,
-    searchNews: PropTypes.func
+    searchByKeyword: PropTypes.func
 }
 export default NewInfo;
 

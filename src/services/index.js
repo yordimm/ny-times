@@ -7,7 +7,7 @@ const apiUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?';
 
 export const Services = {
     searchNews: async (materialType, keywords, page) => {
-        const link = `${apiUrl}fq=type_of_material:"${materialType}"q="${keywords}"&page=${page}&api-key=${apiKey}`;
+        const link = `${apiUrl}fq=type_of_material:"${materialType}"&q=${keywords}&page=${page}&api-key=${apiKey}`;
         try {
             const { data } = await axios.create().get(link)
             return {

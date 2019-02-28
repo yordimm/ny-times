@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const SearchContainer = ({ title, searchBarName, selectName, handleChange, searchNews }) => {
     return (
@@ -18,8 +19,10 @@ const SearchContainer = ({ title, searchBarName, selectName, handleChange, searc
                     <option value={"Text"}>Text</option>
                 </select>
             </div>
-            <div className="d-flex col-sm-12 col-lg-2 justify-content-center justify-content-lg-start my-4 my-lg-0">
-                <button onClick={searchNews} type="button" className="btn btn-primary align-self-sm-center align-self-lg-end">{'Search'}</button>
+            <div className="d-flex col-sm-12 col-lg-2 justify-content-center justify-content-lg-start my-4 my-lg-0 align-items-end">
+                <Link to={'/results'}>
+                    <button onClick={searchNews} type="button" className="btn btn-primary align-self-sm-center align-self-lg-end">{'Search'}</button>
+                </Link>
             </div>
         </div>
     );
