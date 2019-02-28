@@ -16,10 +16,10 @@ const NewInfo = ({ headline, snippet, source, publicationDate, keywords, link, s
                     <p className="d-sm-block d-none">{snippet}</p>
                     <p><b>{'Source:'}</b> {source}</p>
                     <p><b>{'Published: '}</b>{`${Services.formatDate(publicationDate)} GMT`}</p>
-                    <div className="d-md-flex d-none">
+                    {keywords.length > 0 && <div className="d-md-flex d-none">
                         <i className="fas fa-tags mt-1"></i>
-                        {keywords.length > 0 && keywords.map((keyword, index) => { return index <= 3 && <p className="mx-2" name={'keyword'} onClick={() => searchByKeyword(keyword.value)} value={keyword.value}>{keyword.value}</p> })}
-                    </div>
+                        {keywords.map((keyword, index) => { return index <= 3 && <p className="mx-2" name={'keyword'} onClick={() => searchByKeyword(keyword.value)} value={keyword.value}>{keyword.value}</p> })}
+                    </div>}
                 </div>
             </div>
         </div>

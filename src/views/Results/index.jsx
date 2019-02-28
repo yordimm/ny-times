@@ -41,9 +41,21 @@ class Results extends Component {
         await this.searchNews()
     }
 
+    getNewSearch = async () => {
+        await this.setState({ keyword: this.props.keyword, page: 1, news: [], newsLength: 0, newSearch: true })
+        await this.searchNews()
+    }
+
     render() {
         return (
             <div>
+                <SearchContainer
+                    title={'The New York Times'}
+                    searchBarName={'Keywords'}
+                    selectName={'Type of material'}
+                    handleChange={this.props.handleChange}
+                    searchNews={this.getNewSearch}
+                />
                 {this.state.news.length > 0 &&
                     <div>
                         {this.state.news.map((currentNew, index) =>
@@ -68,8 +80,7 @@ class Results extends Component {
 
 const mapStateToProps = state => {
     return {
-        news: state.newsState,
-        params: state.paramsState
+        news: state.newsState
     };
 };
 
