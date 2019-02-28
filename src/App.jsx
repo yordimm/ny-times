@@ -7,6 +7,18 @@ import Results from './views/Results';
 import { Services } from './services'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      keyword: '',
+      material: 'News'
+    }
+  }
+
+  handleChange = async (event) => {
+    const { target: { name, value } } = event
+    await this.setState({ [name]: value })
+  }
 
   render() {
     const { store } = this.props;
@@ -15,8 +27,18 @@ class App extends Component {
         <Router>
           <div>
             <Switch>
-              <Route exact path="/" component={Home} location="hash" />
-              <Route path="/results" render={(props) => <Results {...props} />} location="hash" />
+              <Route exact path="/" render={(props) =>
+                <Home {...props}
+                  handleChange={this.handleChange}
+                />
+              } location="hash" />
+              <Route path="/results" render={(props) =>
+                <Results {...props}
+                  keyword={this.state.keyword}
+                  material={this.state.material}
+                  handleChange={this.handleChange}
+                />}
+                location="hash" />
               <Route component={Home} />
             </Switch>
           </div>

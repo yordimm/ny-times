@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Services } from '../../services';
 import './styles.css';
 
@@ -17,7 +18,7 @@ const NewInfo = ({ headline, snippet, source, publicationDate, keywords, link, s
                     <p><b>{'Published: '}</b>{`${Services.formatDate(publicationDate)} GMT`}</p>
                     <div className="d-md-flex d-none">
                         <i className="fas fa-tags mt-1"></i>
-                        {keywords.length > 0 && keywords.map((keyword, index) => { return index <= 3 && <p className="mx-2"  name={'keyword'} value={keyword.value}>{keyword.value}</p> })}
+                        {keywords.length > 0 && keywords.map((keyword, index) => { return index <= 3 && <p className="mx-2" name={'keyword'} onClick={() => searchByKeyword(keyword.value)} value={keyword.value}>{keyword.value}</p> })}
                     </div>
                 </div>
             </div>

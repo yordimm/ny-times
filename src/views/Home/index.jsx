@@ -1,31 +1,39 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from "../../redux/actions/types";
 import SearchContainer from '../../components/SearchContainer';
 import NewInfo from '../../components/NewInfo';
 import { Services } from '../../services'
+
 
 class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            news: [],
             keyword: '',
             material: 'News',
+            news: [],
             page: 1,
             newsLength: 0,
             error: false
         }
     }
 
-    handleChange = async (event) => {
-        const { target: { name, value } } = event
-        await this.setState({ [name]: value })
+    componentDidMount() {
+        console.log(this.props)
     }
+    // handleChange = async (event) => {
+    //     const { target: { name, value } } = event
+    //     await this.setState({ [name]: value })
+    // }
 
     searchNews = async () => {
-        const data = await Services.searchNews(this.state.material, this.state.keyword, this.state.page);
-        const { news, newsLength, error } = data;
-        this.setState({ news: [...this.state.news, ...news], newsLength, error })
+        // const data = await this.props.getNews(this.state.material, this.state.keyword, this.state.page);
+        await this.props.getNews(this.state.material, this.state.keyword, this.state.page);
+        const { error, newsLength, newsList } = this.props.news
+        this.setState({ news: newsList, newsLength, error })
     }
 
     searchByKeyword = async (keyword) => {
@@ -48,11 +56,11 @@ class Home extends Component {
                         title={'The New York Times'}
                         searchBarName={'Keywords'}
                         selectName={'Type of material'}
-                        handleChange={this.handleChange}
+                        handleChange={this.props.handleChange}
                         searchNews={this.searchNews}
                     />
                 </div>
-                {this.state.news.length > 0 &&
+                {/* {this.state.news.length > 0 &&
                     <div>
                         {this.state.news.map((currentNew, index) =>
                             <NewInfo
@@ -68,10 +76,21 @@ class Home extends Component {
                         <p>{`Displaying ${this.state.news.length} results of ${this.state.newsLength} found`} </p>
                         <button type="button" className="btn btn-primary" onClick={this.getMoreNews}>{'Get more news'}</button>
                     </div>
-                }
+                } */}
             </div>
         );
     }
 }
 
-export default Home;
+const mapStateToProps = state => {
+    return {
+        news: state.newsState,
+        params: state.paramsState
+    };
+};
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(ActionCreators, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
