@@ -11,7 +11,9 @@ class App extends Component {
       news: [],
       keyword: '',
       material: 'News',
-      page: 1
+      page: 1,
+      newsLength: 0,
+      error: false
     }
   }
 
@@ -23,7 +25,12 @@ class App extends Component {
   searchNews = async () => {
     const data = await Services.searchNews(this.state.material, this.state.keyword, this.state.page);
     const { news, newsLength, error } = data;
-    this.setState({ news })
+    this.setState({ news: [...this.state.news, ...news], newsLength, error })
+  }
+
+  getMoreNews = async () => {
+    await this.setState({ page: this.state.page + 1 })
+    await this.searchNews()
   }
 
   render() {
@@ -39,16 +46,22 @@ class App extends Component {
           />
         </div>
         {this.state.news.length > 0 &&
-          this.state.news.map((currentNew, index) =>
-            <NewInfo
-              headline={currentNew.headline.main}
-              snippet={currentNew.snippet}
-              source={currentNew.source}
-              publicationDate={currentNew.pub_date}
-              keywords={currentNew.keywords}
-              link={currentNew.web_url}
-            />
-          )
+          <div>
+            {this.state.news.map((currentNew, index) =>
+              <NewInfo
+                headline={currentNew.headline.main ? currentNew.headline.main : ''}
+                snippet={currentNew.snippet}
+                source={currentNew.source}
+                publicationDate={currentNew.pub_date}
+                keywords={currentNew.keywords}
+                link={currentNew.web_url}
+                handleChange={this.handleChange}
+                searchNews={this.searchNews}
+              />
+            )}
+            <p>{`Displaying ${this.state.news.length} results of ${this.state.newsLength} found`} </p>
+            <button type="button" className="btn btn-primary" onClick={this.getMoreNews}>{'Get more news'}</button>
+          </div>
         }
       </div>
     );

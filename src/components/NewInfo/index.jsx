@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Services } from '../../services';
 import './styles.css';
 
-// Sugar.Date.create('1970-04-26T00:00:00Z', { fromGMT: true }
-const NewInfo = ({ headline, snippet, source, publicationDate, keywords, link }) => {
+const NewInfo = ({ headline, snippet, source, publicationDate, keywords, link, handleChange, searchNews }) => {
     return (
         <div className="card">
             <div className="row card-body">
@@ -12,13 +11,13 @@ const NewInfo = ({ headline, snippet, source, publicationDate, keywords, link })
                     <img src="https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png" className="img-fluid w-100 h-100" alt="Responsive image" />
                 </div>
                 <div className="col">
-                    <a  href={link}>{headline}</a>
+                    <a href={link}>{headline}</a>
                     <p className="d-sm-block d-none">{snippet}</p>
                     <p><b>{'Source:'}</b> {source}</p>
                     <p><b>{'Published: '}</b>{`${Services.formatDate(publicationDate)} GMT`}</p>
                     <div className="d-md-flex d-none">
                         <i className="fas fa-tags mt-1"></i>
-                        {keywords.length > 0 && keywords.map((keyword, index) => { return index <= 3 && <p className="mx-2">{keyword.name}</p> })}
+                        {keywords.length > 0 && keywords.map((keyword, index) => { return index <= 3 && <p className="mx-2" onClick={(handleChange)} name={'keyword'} value={keyword.name}>{keyword.name}</p> })}
                     </div>
                 </div>
             </div>
@@ -33,7 +32,9 @@ NewInfo.propTypes = {
     source: PropTypes.string.isRequired,
     publicationDate: PropTypes.string.isRequired,
     keywords: PropTypes.arrayOf(PropTypes.string).isRequired,
-    link: PropTypes.string
+    link: PropTypes.string,
+    handleChange: PropTypes.func,
+    searchNews: PropTypes.func
 }
 export default NewInfo;
 
