@@ -22,6 +22,7 @@ class Home extends Component {
     }
 
     render() {
+        const { handleChange } = this.props;
         return (
             <div>
                 <div className="container">
@@ -29,7 +30,7 @@ class Home extends Component {
                         title={'The New York Times'}
                         searchBarName={'Keywords'}
                         selectName={'Type of material'}
-                        handleChange={this.props.handleChange}
+                        handleChange={handleChange}
                         searchNews={() => { }}
                     />
                 </div>
