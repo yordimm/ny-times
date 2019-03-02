@@ -3,3 +3,16 @@ a{
     font-size: 1.2rem;
     font-weight: bold;
 }
+
+.card {
+    border : 0px;
+}
+
+.thumbnail {
+    height: 170px;
+}
+
+.keywordLink {
+    text-decoration: underline;
+    cursor: pointer
+}

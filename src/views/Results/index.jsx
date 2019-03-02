@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from "../../redux/actions/types";
+import { Services } from '../../services';
 import SearchContainer from '../../components/SearchContainer';
 import NewInfo from '../../components/NewInfo';
 
@@ -47,19 +47,24 @@ class Results extends Component {
     }
 
     render() {
+        const { handleChange, materials } = this.props;
         return (
             <div>
                 <SearchContainer
                     title={'The New York Times'}
                     searchBarName={'Keywords'}
                     selectName={'Type of material'}
-                    handleChange={this.props.handleChange}
+                    handleChange={handleChange}
                     searchNews={this.getNewSearch}
+                    isResult={true}
+                    materials={materials}
                 />
-                {this.state.news.length > 0 &&
+                <p className="ml-3">{'Result of '}<b>{this.state.keyword}</b> {'and'} <b>{this.state.material}</b></p>
+                {this.state.news.length > 0 ?
                     <div>
                         {this.state.news.map((currentNew, index) =>
                             <NewInfo
+                                key={index}
                                 headline={currentNew.headline.main ? currentNew.headline.main : ''}
                                 snippet={currentNew.snippet}
                                 source={currentNew.source}
@@ -67,11 +72,15 @@ class Results extends Component {
                                 keywords={currentNew.keywords}
                                 link={currentNew.web_url}
                                 searchByKeyword={this.searchByKeyword}
+                                thumbnail={Services.getThumbNail(currentNew.multimedia)}
                             />
                         )}
-                        <p>{`Displaying ${this.state.news.length} results of ${this.state.newsLength} found`} </p>
-                        <button type="button" className="btn btn-primary" onClick={this.getMoreNews}>{'Get more news'}</button>
-                    </div>
+                        <div className="ml-4">
+                            <p>{`Displaying ${this.state.news.length} results of ${this.state.newsLength} found`} </p>
+                            <button type="button" className="btn btn-primary" onClick={this.getMoreNews}>{'Get more news'}</button>
+                        </div>
+                    </div> :
+                    <p>{'No Results Please Try Again'}</p>
                 }
             </div>
         );
